@@ -8,7 +8,7 @@ const p = path.join(
 );
 
 export class Cart {
-  static addProduct(id, productPrice) {
+  static addProduct(id: any, productPrice: string | number) {
     // Fetch the previous cart
     fs.readFile(p, (err, fileContent) => {
       let cart = { products: [], totalPrice: 0 };
@@ -38,19 +38,19 @@ export class Cart {
     });
   }
 
-  static deleteProduct(id, productPrice) {
+  static deleteProduct(id: any, productPrice: number) {
     fs.readFile(p, (err, fileContent) => {
       if (err) {
         return;
       }
       const updatedCart = { ...JSON.parse(fileContent) };
-      const product = updatedCart.products.find(prod => prod.id === id);
+      const product = updatedCart.products.find((prod: { id: any; }) => prod.id === id);
       if (!product) {
           return;
       }
       const productQty = product.qty;
       updatedCart.products = updatedCart.products.filter(
-        prod => prod.id !== id
+        (        prod: { id: any; }) => prod.id !== id
       );
       updatedCart.totalPrice =
         updatedCart.totalPrice - productPrice * productQty;
@@ -61,7 +61,7 @@ export class Cart {
     });
   }
 
-  static getCart(cb) {
+  static getCart(cb: { (cart: { products: any[]; }): void; (arg0: null): void; }) {
     fs.readFile(p, (err, fileContent) => {
       const cart = JSON.parse(fileContent);
       if (err) {
